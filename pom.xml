@@ -223,20 +223,20 @@
     <MaxPermGen>512m</MaxPermGen>
     <CodeCacheSize>512m</CodeCacheSize>
   </properties>
-  <repositories>
-    <repository>
-      <id>central</id>
-      <!-- This should be at top, it makes maven try the central repo first and then others and hence faster dep resolution -->
-      <name>Maven Repository</name>
-      <url>https://repo1.maven.org/maven2</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
+  <!--<repositories>-->
+    <!--<repository>-->
+      <!--<id>central</id>-->
+      <!--&lt;!&ndash; This should be at top, it makes maven try the central repo first and then others and hence faster dep resolution &ndash;&gt;-->
+      <!--<name>Maven Repository</name>-->
+      <!--<url>https://repo1.maven.org/maven2</url>-->
+      <!--<releases>-->
+        <!--<enabled>true</enabled>-->
+      <!--</releases>-->
+      <!--<snapshots>-->
+        <!--<enabled>false</enabled>-->
+      <!--</snapshots>-->
+    <!--</repository>-->
+  <!--</repositories>-->
   <pluginRepositories>
     <pluginRepository>
       <id>central</id>
@@ -284,6 +284,11 @@
       <groupId>com.novocode</groupId>
       <artifactId>junit-interface</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mikelangelo.osv</groupId>
+      <artifactId>osvProcessBuilder</artifactId>
+      <version>0.1</version>
     </dependency>
   </dependencies>
   <dependencyManagement>

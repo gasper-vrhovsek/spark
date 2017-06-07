@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import static org.apache.spark.launcher.CommandBuilderUtils.*;
@@ -37,6 +38,8 @@ import static org.apache.spark.launcher.CommandBuilderUtils.*;
  * Abstract Spark command builder that defines common functionality.
  */
 abstract class AbstractCommandBuilder {
+
+  private static final Logger LOG = Logger.getLogger(AbstractCommandBuilder.class.getName());
 
   boolean verbose;
   String appName;
@@ -232,13 +235,18 @@ abstract class AbstractCommandBuilder {
     String sparkHome = getSparkHome();
     File scala210 = new File(sparkHome, "launcher/target/scala-2.10");
     File scala211 = new File(sparkHome, "launcher/target/scala-2.11");
+
+    LOG.info("Scala 211 absolute path = " + scala211.getAbsolutePath());
+    System.out.println(scala211.getAbsolutePath());
+    System.err.println(scala211.getAbsolutePath());
+
     checkState(!scala210.isDirectory() || !scala211.isDirectory(),
       "Presence of build for both scala versions (2.10 and 2.11) detected.\n" +
       "Either clean one of them or set SPARK_SCALA_VERSION in your environment.");
     if (scala210.isDirectory()) {
       return "2.10";
     } else {
-      checkState(scala211.isDirectory(), "Cannot find any build directories.");
+      checkState(scala211.isDirectory(), "Cannot find any build directories. " + scala211.getPath() + " : " + scala211.getAbsolutePath());
       return "2.11";
     }
   }
