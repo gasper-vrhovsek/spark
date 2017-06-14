@@ -17,13 +17,11 @@
 
 package org.apache.spark.launcher;
 
+import org.mikelangelo.osvprocessbuilder.OsvProcessBuilder;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -499,7 +497,7 @@ public class SparkLauncher {
     }
 
     String loggerName = builder.getEffectiveConfig().get(CHILD_PROCESS_LOGGER_NAME);
-    ProcessBuilder pb = createBuilder();
+    OsvProcessBuilder pb = createBuilder();
     // Only setup stderr + stdout to logger redirection if user has not otherwise configured output
     // redirection.
     if (loggerName == null) {
@@ -538,7 +536,7 @@ public class SparkLauncher {
     return handle;
   }
 
-  private ProcessBuilder createBuilder() {
+  private OsvProcessBuilder createBuilder() {
     List<String> cmd = new ArrayList<>();
     String script = isWindows() ? "spark-submit.cmd" : "spark-submit";
     cmd.add(join(File.separator, builder.getSparkHome(), "bin", script));
@@ -555,7 +553,7 @@ public class SparkLauncher {
       cmd = winCmd;
     }
 
-    ProcessBuilder pb = new ProcessBuilder(cmd.toArray(new String[cmd.size()]));
+    OsvProcessBuilder pb = new OsvProcessBuilder(Arrays.asList(new String[cmd.size()]));
     for (Map.Entry<String, String> e : builder.childEnv.entrySet()) {
       pb.environment().put(e.getKey(), e.getValue());
     }
@@ -576,10 +574,10 @@ public class SparkLauncher {
       pb.redirectErrorStream(true);
     }
     if (errorStream != null) {
-      pb.redirectError(errorStream);
+//      pb.redirectError(errorStream);
     }
     if (outputStream != null) {
-      pb.redirectOutput(outputStream);
+//      pb.redirectOutput(outputStream);
     }
 
     return pb;
