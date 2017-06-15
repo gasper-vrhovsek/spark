@@ -31,9 +31,9 @@ import scala.collection.Map
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
 import scala.reflect.ClassTag
-
 import org.apache.spark.{Partition, SparkEnv, TaskContext}
 import org.apache.spark.util.Utils
+import org.mikelangelo.osvprocessbuilder.OsvProcessBuilder
 
 
 /**
@@ -64,7 +64,7 @@ private[spark] class PipedRDD[T: ClassTag](
   }
 
   override def compute(split: Partition, context: TaskContext): Iterator[String] = {
-    val pb = new ProcessBuilder(command.asJava)
+    val pb = new OsvProcessBuilder(command.asJava)
     // Add the environmental variables to the process.
     val currentEnvVars = pb.environment()
     envVars.foreach { case (variable, value) => currentEnvVars.put(variable, value) }

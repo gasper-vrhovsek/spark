@@ -23,12 +23,11 @@ import java.util.logging.Level
 import java.util.zip.{ZipEntry, ZipOutputStream}
 
 import scala.collection.JavaConverters._
-
 import com.google.common.io.{ByteStreams, Files}
-
 import org.apache.spark.api.r.RUtils
 import org.apache.spark.internal.Logging
 import org.apache.spark.util.{RedirectThread, Utils}
+import org.mikelangelo.osvprocessbuilder.OsvProcessBuilder
 
 private[deploy] object RPackageUtils extends Logging {
 
@@ -112,7 +111,7 @@ private[deploy] object RPackageUtils extends Logging {
       print(s"Building R package with the command: $installCmd", printStream)
     }
     try {
-      val builder = new ProcessBuilder(installCmd.asJava)
+      val builder = new OsvProcessBuilder(installCmd.asJava)
       builder.redirectErrorStream(true)
 
       // Put the SparkR package directory into R library search paths in case this R package

@@ -20,6 +20,7 @@ package org.apache.spark.deploy
 import java.io._
 import java.net.URL
 import java.nio.charset.StandardCharsets
+import java.util
 import java.util.concurrent.TimeoutException
 
 import scala.collection.mutable.ListBuffer
@@ -28,14 +29,13 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.language.postfixOps
 import scala.sys.process._
-
 import org.json4s._
 import org.json4s.jackson.JsonMethods
-
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.deploy.master.RecoveryState
 import org.apache.spark.internal.Logging
 import org.apache.spark.util.{ThreadUtils, Utils}
+import org.mikelangelo.osvprocessbuilder.OsvProcessBuilder
 
 /**
  * This suite tests the fault tolerance of the Spark standalone scheduler, mainly the Master.

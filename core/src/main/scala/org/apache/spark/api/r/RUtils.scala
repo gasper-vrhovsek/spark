@@ -18,9 +18,10 @@
 package org.apache.spark.api.r
 
 import java.io.File
-import java.util.Arrays
+import java.util
 
 import org.apache.spark.{SparkEnv, SparkException}
+import org.mikelangelo.osvprocessbuilder.OsvProcessBuilder
 
 private[spark] object RUtils {
   // Local path where R binary packages built from R source code contained in the spark
@@ -98,7 +99,7 @@ private[spark] object RUtils {
   /** Check if R is installed before running tests that use R commands. */
   def isRInstalled: Boolean = {
     try {
-      val builder = new ProcessBuilder(Arrays.asList("R", "--version"))
+      val builder = new OsvProcessBuilder(util.Arrays.asList("R", "--version"))
       builder.start().waitFor() == 0
     } catch {
       case e: Exception => false

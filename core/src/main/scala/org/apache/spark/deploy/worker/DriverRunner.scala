@@ -22,9 +22,7 @@ import java.net.URI
 import java.nio.charset.StandardCharsets
 
 import scala.collection.JavaConverters._
-
 import com.google.common.io.Files
-
 import org.apache.spark.{SecurityManager, SparkConf}
 import org.apache.spark.deploy.{DriverDescription, SparkHadoopUtil}
 import org.apache.spark.deploy.DeployMessages.DriverStateChanged
@@ -33,6 +31,7 @@ import org.apache.spark.deploy.master.DriverState.DriverState
 import org.apache.spark.internal.Logging
 import org.apache.spark.rpc.RpcEndpointRef
 import org.apache.spark.util.{Clock, ShutdownHookManager, SystemClock, Utils}
+import org.mikelangelo.osvprocessbuilder.OsvProcessBuilder
 
 /**
  * Manages the execution of one driver, including automatically restarting the driver on failure.
@@ -184,7 +183,7 @@ private[deploy] class DriverRunner(
     runDriver(builder, driverDir, driverDesc.supervise)
   }
 
-  private def runDriver(builder: ProcessBuilder, baseDir: File, supervise: Boolean): Int = {
+  private def runDriver(builder: OsvProcessBuilder, baseDir: File, supervise: Boolean): Int = {
     builder.directory(baseDir)
     def initialize(process: Process): Unit = {
       // Redirect stdout and stderr to files
@@ -248,7 +247,7 @@ private[deploy] trait ProcessBuilderLike {
 }
 
 private[deploy] object ProcessBuilderLike {
-  def apply(processBuilder: ProcessBuilder): ProcessBuilderLike = new ProcessBuilderLike {
+  def apply(processBuilder: OsvProcessBuilder): ProcessBuilderLike = new ProcessBuilderLike {
     override def start(): Process = processBuilder.start()
     override def command: Seq[String] = processBuilder.command().asScala
   }

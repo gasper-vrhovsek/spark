@@ -21,12 +21,11 @@ import java.io._
 import java.util.concurrent.{Semaphore, TimeUnit}
 
 import scala.collection.JavaConverters._
-
 import org.apache.hadoop.fs.Path
-
 import org.apache.spark.{SparkException, SparkUserAppException}
 import org.apache.spark.api.r.{RBackend, RUtils, SparkRDefaults}
 import org.apache.spark.util.RedirectThread
+import org.mikelangelo.osvprocessbuilder.OsvProcessBuilder
 
 /**
  * Main class used to launch SparkR applications using spark-submit. It executes R as a
@@ -82,7 +81,7 @@ object RRunner {
     if (initialized.tryAcquire(backendTimeout, TimeUnit.SECONDS)) {
       // Launch R
       val returnCode = try {
-        val builder = new ProcessBuilder((Seq(rCommand, rFileNormalized) ++ otherArgs).asJava)
+        val builder = new OsvProcessBuilder((Seq(rCommand, rFileNormalized) ++ otherArgs).asJava)
         val env = builder.environment()
         env.put("EXISTING_SPARKR_BACKEND_PORT", sparkRBackendPort.toString)
         env.put("SPARKR_BACKEND_CONNECTION_TIMEOUT", backendConnectionTimeout)

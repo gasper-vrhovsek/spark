@@ -23,11 +23,11 @@ import java.net.URI
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.JavaConverters._
 import scala.util.Try
-
 import org.apache.spark.{SparkConf, SparkUserAppException}
 import org.apache.spark.api.python.PythonUtils
 import org.apache.spark.internal.config._
 import org.apache.spark.util.{RedirectThread, Utils}
+import org.mikelangelo.osvprocessbuilder.OsvProcessBuilder
 
 /**
  * A main class used to launch Python applications. It executes python as a
@@ -76,7 +76,7 @@ object PythonRunner {
     val pythonPath = PythonUtils.mergePythonPaths(pathElements: _*)
 
     // Launch Python process
-    val builder = new ProcessBuilder((Seq(pythonExec, formattedPythonFile) ++ otherArgs).asJava)
+    val builder = new OsvProcessBuilder((Seq(pythonExec, formattedPythonFile) ++ otherArgs).asJava)
     val env = builder.environment()
     env.put("PYTHONPATH", pythonPath)
     // This is equivalent to setting the -u flag; we use it because ipython doesn't support -u:

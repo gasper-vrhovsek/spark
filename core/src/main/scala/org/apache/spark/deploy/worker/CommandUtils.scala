@@ -17,16 +17,17 @@
 
 package org.apache.spark.deploy.worker
 
-import java.io.{File, FileOutputStream, InputStream, IOException}
+import java.io.{File, FileOutputStream, IOException, InputStream}
+import java.util
 
 import scala.collection.JavaConverters._
 import scala.collection.Map
-
 import org.apache.spark.SecurityManager
 import org.apache.spark.deploy.Command
 import org.apache.spark.internal.Logging
 import org.apache.spark.launcher.WorkerCommandBuilder
 import org.apache.spark.util.Utils
+import org.mikelangelo.osvprocessbuilder.OsvProcessBuilder
 
 /**
  * Utilities for running commands with the spark classpath.
@@ -45,11 +46,11 @@ object CommandUtils extends Logging {
       sparkHome: String,
       substituteArguments: String => String,
       classPaths: Seq[String] = Seq[String](),
-      env: Map[String, String] = sys.env): ProcessBuilder = {
+      env: Map[String, String] = sys.env): OsvProcessBuilder = {
     val localCommand = buildLocalCommand(
       command, securityMgr, substituteArguments, classPaths, env)
     val commandSeq = buildCommandSeq(localCommand, memory, sparkHome)
-    val builder = new ProcessBuilder(commandSeq: _*)
+    val builder = new OsvProcessBuilder(util.Arrays.asList(commandSeq: _*))
     val environment = builder.environment()
     for ((key, value) <- localCommand.environment) {
       environment.put(key, value)
