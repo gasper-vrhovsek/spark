@@ -178,7 +178,12 @@ private[deploy] class ExecutorRunner(
 
       // Wait for it to exit; executor may exit with code 0 (when driver instructs it to shutdown)
       // or with nonzero exit code
-      val exitCode = process.waitFor()
+
+      // TODO check executor node, end when its process has completed.
+      Thread.sleep(100000)
+      val exitCode = 0
+
+      //val exitCode = process.waitFor()
       state = ExecutorState.EXITED
       val message = "Command exited with code " + exitCode
       worker.send(ExecutorStateChanged(appId, execId, state, Some(message), Some(exitCode)))
