@@ -286,8 +286,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.mikelangelo.osv</groupId>
-      <artifactId>osvProcessBuilder</artifactId>
+      <groupId>org.mikelangelo</groupId>
+      <artifactId>OsvProcessBuilder</artifactId>
       <version>0.1</version>
     </dependency>
   </dependencies>
